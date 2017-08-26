@@ -1,5 +1,12 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <iostream>
+
+void funk(){
+    while(1){
+        std::cout<<"HUI";
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +22,7 @@ int main(int argc, char *argv[])
     //another ПИСЮН
 
 
-
+    funk();
 
 
     // НЕ УДАЛЯТЬ!!!!!
