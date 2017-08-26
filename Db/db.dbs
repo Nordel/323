@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="323" id="Project_2d1ea42" template="Default" database="PostgreSQL" >
+	<schema name="323" schemaname="323" >
+		<table name="clients" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="client_type" type="varchar" jt="12" />
+			<index name="pk_clients" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="expenses_types" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="expenses_type" type="varchar" jt="12" mandatory="y" />
+			<index name="pk_expenses_types" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="pk_expenses_types_0" unique="UNIQUE" >
+				<column name="expenses_type" />
+			</index>
+		</table>
+		<table name="revenues\expenses" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="operation_date" type="date" jt="91" mandatory="y" >
+				<defo>current_date</defo>
+			</column>
+			<column name="revenue" type="float8" jt="6" mandatory="y" >
+				<defo>0</defo>
+			</column>
+			<column name="revnue_type" type="varchar" jt="12" mandatory="y" />
+			<column name="expenses" type="float8" jt="6" mandatory="y" >
+				<defo>0</defo>
+			</column>
+			<column name="expenses_type" type="varchar" jt="12" mandatory="y" />
+			<column name="total" type="float8" jt="6" mandatory="y" />
+			<index name="pk_revenues\expenses" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_revenues\expenses" unique="NORMAL" >
+				<column name="expenses_type" />
+			</index>
+			<index name="idx_revenues\expenses_0" unique="NORMAL" >
+				<column name="revnue_type" />
+			</index>
+			<fk name="fk_revenues\expenses" to_schema="323" to_table="expenses_types" >
+				<fk_column name="expenses_type" pk="expenses_type" />
+			</fk>
+			<fk name="fk_revenues\expenses_0" to_schema="323" to_table="revnue_types" >
+				<fk_column name="revnue_type" pk="revnue_type" />
+			</fk>
+		</table>
+		<table name="revnue_types" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="revnue_type" type="varchar" jt="12" mandatory="y" />
+			<index name="pk_revnue_types" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="pk_revnue_types_0" unique="UNIQUE" >
+				<column name="revnue_type" />
+			</index>
+		</table>
+		<table name="tasks" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="task_date" type="date" jt="91" mandatory="y" >
+				<defo>current_date</defo>
+			</column>
+			<column name="task_end_date" type="date" jt="91" mandatory="y" />
+			<column name="payment" type="float8" jt="6" mandatory="y" >
+				<defo>0</defo>
+			</column>
+			<column name="cost_of_the_translators" type="float8" jt="6" mandatory="y" >
+				<defo>0</defo>
+			</column>
+			<column name="cost_of_the_courier" type="float8" jt="6" mandatory="y" >
+				<defo>0</defo>
+			</column>
+			<column name="other_costs" type="float8" jt="6" mandatory="y" >
+				<defo>0</defo>
+			</column>
+			<column name="translators" type="integer" jt="4" />
+			<column name="client" type="integer" jt="4" mandatory="y" />
+			<column name="description" type="varchar" jt="12" />
+			<column name="additional_info" type="varchar" jt="12" />
+			<column name="status" type="varchar" jt="12" mandatory="y" />
+			<index name="pk_tasks" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_tasks" unique="NORMAL" >
+				<column name="translators" />
+			</index>
+			<index name="idx_tasks_0" unique="NORMAL" >
+				<column name="client" />
+			</index>
+			<fk name="fk_tasks" to_schema="323" to_table="translators" >
+				<fk_column name="translators" pk="id" />
+			</fk>
+			<fk name="fk_tasks_0" to_schema="323" to_table="clients" >
+				<fk_column name="client" pk="id" />
+			</fk>
+		</table>
+		<table name="translators" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="full_name" type="varchar" length="100" jt="12" />
+			<column name="telephone_number" type="varchar" jt="12" />
+			<column name="email" type="varchar" jt="12" />
+			<column name="other_contact_info" type="varchar" jt="12" />
+			<column name="languages" type="varchar" jt="12" />
+			<column name="specialization" type="varchar" jt="12" />
+			<column name="current_tasks" type="varchar" jt="12" />
+			<column name="additional_info" type="varchar" jt="12" />
+			<index name="pk_переводчики" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout_3f8423f" show_relation="columns" >
+		<entity schema="323" name="translators" color="1f5182" x="45" y="120" />
+		<entity schema="323" name="clients" color="1f5182" x="525" y="150" />
+		<entity schema="323" name="tasks" color="1f5182" x="300" y="45" />
+		<entity schema="323" name="expenses_types" color="1f5182" x="240" y="435" />
+		<entity schema="323" name="revnue_types" color="1f5182" x="375" y="405" />
+		<entity schema="323" name="revenues\expenses" color="1f5182" x="45" y="330" />
+	</layout>
+</project>
