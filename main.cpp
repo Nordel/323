@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     return a.exec();
     //ПИСЮН ывп
-
+    //ВАЖНЫЕ ИЗМЕНЕНИЯ
     //another ПИСЮН
 
 
