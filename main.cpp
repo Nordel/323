@@ -10,5 +10,4 @@ int main(int argc, char *argv[])
     // Test
 
     return a.exec();
-    //ПИСЮН ывп
 }
