@@ -13,4 +13,10 @@ int main(int argc, char *argv[])
     //ПИСЮН ывп
 
     //another ПИСЮН
+
+
+
+
+
+    // НЕ УДАЛЯТЬ!!!!!
 }
