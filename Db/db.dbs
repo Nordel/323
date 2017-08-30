@@ -1,10 +1,94 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="323" id="Project_2d1ea42" template="Default" database="PostgreSQL" >
 	<schema name="323" schemaname="323" >
+		<table name="accounts" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="company_id" type="integer" jt="4" mandatory="y" />
+			<column name="tasks_id" type="integer" jt="4" mandatory="y" />
+			<column name="account_creation_date" type="date" jt="91" mandatory="y" >
+				<defo>current_date</defo>
+			</column>
+			<column name="...." type="integer" jt="4" />
+			<index name="pk_accounts" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_accounts" unique="NORMAL" >
+				<column name="company_id" />
+			</index>
+			<index name="idx_accounts_0" unique="NORMAL" >
+				<column name="tasks_id" />
+			</index>
+			<fk name="fk_accounts" to_schema="323" to_table="company" >
+				<fk_column name="company_id" pk="id" />
+			</fk>
+			<fk name="fk_accounts_0" to_schema="323" to_table="tasks" >
+				<fk_column name="tasks_id" pk="id" />
+			</fk>
+		</table>
+		<table name="acts_of_completed_works" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="company_id" type="integer" jt="4" mandatory="y" />
+			<column name="act_file" type="varchar" jt="12" mandatory="y" />
+			<column name="act_date" type="date" jt="91" mandatory="y" >
+				<defo>current_date</defo>
+			</column>
+			<index name="pk_acts_of_completed_works" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_acts_of_completed_works" unique="NORMAL" >
+				<column name="company_id" />
+			</index>
+			<fk name="fk_acts_of_completed_works" to_schema="323" to_table="company" >
+				<fk_column name="company_id" pk="id" />
+			</fk>
+		</table>
+		<table name="applications" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="company_id" type="integer" jt="4" mandatory="y" />
+			<column name="...." type="integer" jt="4" />
+			<index name="pk_applications" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_applications" unique="NORMAL" >
+				<column name="company_id" />
+			</index>
+			<fk name="fk_applications" to_schema="323" to_table="company" >
+				<fk_column name="company_id" pk="id" />
+			</fk>
+		</table>
 		<table name="clients" >
 			<column name="id" type="integer" jt="4" mandatory="y" />
 			<column name="client_type" type="varchar" jt="12" />
+			<column name="full_name" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="telephone_number" type="varchar" jt="12" mandatory="y" />
+			<column name="email" type="varchar" jt="12" />
+			<column name="company_id" type="integer" jt="4" />
 			<index name="pk_clients" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_clients" unique="NORMAL" >
+				<column name="company_id" />
+			</index>
+			<fk name="fk_clients" to_schema="323" to_table="company" delete_action="setNull" >
+				<fk_column name="company_id" pk="id" />
+			</fk>
+		</table>
+		<table name="company" >
+			<column name="id" type="integer" length="100" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="legal_address" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="actual_address" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="tin" type="integer" length="100" jt="4" mandatory="y" />
+			<column name="rrc" type="integer" length="100" jt="4" mandatory="y" />
+			<column name="bank_name" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="operating_account" type="integer" length="100" jt="4" mandatory="y" />
+			<column name="correspondent_account" type="integer" jt="4" mandatory="y" />
+			<column name="rcbic" type="integer" jt="4" mandatory="y" />
+			<column name="general_director_full_name" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="general_accountant_full_name" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="signatory_full_name" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="contract" type="varchar" jt="12" mandatory="y" />
+			<index name="pk_company" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 		</table>
@@ -81,6 +165,8 @@
 			<column name="description" type="varchar" jt="12" />
 			<column name="additional_info" type="varchar" jt="12" />
 			<column name="status" type="varchar" jt="12" mandatory="y" />
+			<column name="input_file" type="varchar" jt="12" />
+			<column name="output_file" type="varchar" jt="12" />
 			<index name="pk_tasks" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -105,19 +191,39 @@
 			<column name="other_contact_info" type="varchar" jt="12" />
 			<column name="languages" type="varchar" jt="12" />
 			<column name="specialization" type="varchar" jt="12" />
-			<column name="current_tasks" type="varchar" jt="12" />
+			<column name="current_tasks_id" type="integer" jt="4" />
 			<column name="additional_info" type="varchar" jt="12" />
 			<index name="pk_переводчики" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_translators" unique="NORMAL" >
+				<column name="current_tasks_id" />
+			</index>
+			<fk name="fk_translators" to_schema="323" to_table="tasks" >
+				<fk_column name="current_tasks_id" pk="id" />
+			</fk>
+		</table>
+		<table name="user_accounts" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="user_login" type="varchar" length="30" jt="12" mandatory="y" />
+			<column name="user_password" type="varchar" length="40" jt="12" mandatory="y" />
+			<column name="access_level" type="varchar" jt="12" mandatory="y" />
+			<index name="pk_user_accounts" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 		</table>
 	</schema>
 	<layout name="Default Layout" id="Layout_3f8423f" show_relation="columns" >
-		<entity schema="323" name="translators" color="1f5182" x="45" y="120" />
-		<entity schema="323" name="clients" color="1f5182" x="525" y="150" />
-		<entity schema="323" name="tasks" color="1f5182" x="300" y="45" />
-		<entity schema="323" name="expenses_types" color="1f5182" x="240" y="435" />
-		<entity schema="323" name="revnue_types" color="1f5182" x="375" y="405" />
-		<entity schema="323" name="revenues\expenses" color="1f5182" x="45" y="330" />
+		<entity schema="323" name="clients" color="1f5182" x="585" y="210" />
+		<entity schema="323" name="revenues\expenses" color="1f5182" x="75" y="525" />
+		<entity schema="323" name="expenses_types" color="1f5182" x="255" y="630" />
+		<entity schema="323" name="revnue_types" color="1f5182" x="390" y="600" />
+		<entity schema="323" name="translators" color="1f5182" x="45" y="180" />
+		<entity schema="323" name="tasks" color="1f5182" x="315" y="60" />
+		<entity schema="323" name="user_accounts" color="1f5182" x="795" y="45" />
+		<entity schema="323" name="accounts" color="1f5182" x="585" y="495" />
+		<entity schema="323" name="company" color="1f5182" x="825" y="345" />
+		<entity schema="323" name="acts_of_completed_works" color="1f5182" x="1140" y="345" />
+		<entity schema="323" name="applications" color="1f5182" x="825" y="690" />
 	</layout>
 </project>
